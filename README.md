@@ -3,7 +3,7 @@
 [graphql-java-annotations](https://github.com/Enigmatis/graphql-java-annotations) is a great library for creating a graphql schema based on POJOs and java annotations.
 It simplifies the graphql schema creation and does not require creating a separated graphql schema and java types.
 
-graphql-spring-annotations is based on **graphql-java-annotations** and [graphql-spring-boot](https://github.com/graphql-java-kickstart/graphql-spring-boot), and let
+graphql-spring-annotations is based on [graphql-java-annotations](https://github.com/Enigmatis/graphql-java-annotations) and [graphql-spring-boot](https://github.com/graphql-java-kickstart/graphql-spring-boot), and let
 you create a spring server for you graphql application, using spring annotations to create your schema.
 
 ## How to use
