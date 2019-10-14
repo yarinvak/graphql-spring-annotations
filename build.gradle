@@ -1,0 +1,52 @@
+group 'yarin'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.1.9.RELEASE"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'gs-spring-boot'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile "io.github.graphql-java:graphql-java-annotations:7.2"
+    compile 'com.graphql-java-kickstart:graphql-spring-boot-starter:5.10.0'
+
+//    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.1.9.RELEASE'
+    // to embed Altair tool
+    runtime 'com.graphql-java-kickstart:altair-spring-boot-starter:5.10.0'
+
+    // to embed GraphiQL tool
+    runtime 'com.graphql-java-kickstart:graphiql-spring-boot-starter:5.10.0'
+
+    // to embed Voyager tool
+    runtime 'com.graphql-java-kickstart:voyager-spring-boot-starter:5.10.0'
+
+    // testing facilities
+    testCompile 'com.graphql-java-kickstart:graphql-spring-boot-starter-test:5.10.0'
+
+
+    testCompile("junit:junit")
+}
