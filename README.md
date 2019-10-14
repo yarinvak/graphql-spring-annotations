@@ -73,7 +73,7 @@ public class UpperDirectiveDefinition implements DirectiveDeclaration {
 
 Notice that we also put the `@Component` annotation on top of the class and implemented `DirectiveDeclaration` interface. All the other things are required annotations of graphql-java-annotations (read in their docs).
 
-Add a properties file (using the graphql-spring-boot settings), for example:
+Add a properties file (using the graphql-spring-boot settings), for example `application.yml`:
 
 ```yaml
 spring:
