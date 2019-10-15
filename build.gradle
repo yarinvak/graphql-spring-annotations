@@ -34,6 +34,8 @@ dependencies {
     compile "io.github.graphql-java:graphql-java-annotations:7.2"
     compile 'com.graphql-java-kickstart:graphql-spring-boot-starter:5.10.0'
 
+    compile 'org.reflections:reflections:0.9.11';
+
 //    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.1.9.RELEASE'
     // to embed Altair tool
     runtime 'com.graphql-java-kickstart:altair-spring-boot-starter:5.10.0'

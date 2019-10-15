@@ -1,17 +1,17 @@
 package springAnno.schema;
 
 import graphql.annotations.AnnotationsSchemaCreator;
+import graphql.annotations.annotationTypes.directives.definition.GraphQLDirectiveDefinition;
 import graphql.schema.GraphQLSchema;
+import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springAnno.interfaces.DirectiveDeclaration;
 import springAnno.interfaces.MutationRoot;
 import springAnno.interfaces.QueryRoot;
 import springAnno.interfaces.SubscriptionRoot;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import static graphql.annotations.AnnotationsSchemaCreator.newAnnotationsSchema;
 
@@ -26,9 +26,6 @@ public class SchemaConfiguration {
     @Autowired(required = false)
     private SubscriptionRoot subscriptionRoot;
 
-    @Autowired
-    private List<DirectiveDeclaration> directiveDeclarations;
-
     @Bean
     GraphQLSchema schema() {
         AnnotationsSchemaCreator.Builder builder = newAnnotationsSchema();
@@ -39,8 +36,12 @@ public class SchemaConfiguration {
         if (subscriptionRoot != null) {
             builder.subscription(subscriptionRoot.getClass());
         }
-        builder.directives(directiveDeclarations.stream().map(DirectiveDeclaration::getClass)
-                .collect(Collectors.toSet()));
+
+        Reflections reflections = new Reflections();
+
+        Set<Class<?>> directiveDeclarations = reflections.getTypesAnnotatedWith(GraphQLDirectiveDefinition.class);
+
+        builder.directives(directiveDeclarations);
         return builder.build();
     }
 }

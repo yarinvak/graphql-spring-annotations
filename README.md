@@ -56,7 +56,7 @@ and implement `QueryRoot` interface (then it will be injected automatically into
 
 You can create your `Mutation` and `Subscription` type in the same way: a graphql-java-annotations syntax, `@Component` annotation on top of the class, and implementing the `MutationRoot` or `SubscriptionRoot` interfaces accordingly.
 
-If you would like to create directives, you can implement the `DirectiveDeclaration` interface in your directive definition class.
+For directives to be added to your schema, you only need to put the `@GraphQLDirectiveDefinition` annotation (it is required by graphql-java-annotations) and your directives will be injected to the schema. No `@Component` is required.
 
 For example:
 
@@ -65,13 +65,10 @@ For example:
 @GraphQLDescription("upper")
 @GraphQLDirectiveDefinition(wiring= UpperDirectiveWiring.class)
 @DirectiveLocations({Introspection.DirectiveLocation.FIELD_DEFINITION, Introspection.DirectiveLocation.ARGUMENT_DEFINITION})
-@Component
-public class UpperDirectiveDefinition implements DirectiveDeclaration {
+public class UpperDirectiveDefinition {
     private boolean isActive = true;
 }
 ```
-
-Notice that we also put the `@Component` annotation on top of the class and implemented `DirectiveDeclaration` interface. All the other things are required annotations of graphql-java-annotations (read in their docs).
 
 Add a properties file (using the graphql-spring-boot settings), for example `application.yml`:
 
