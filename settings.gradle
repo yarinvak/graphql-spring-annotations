@@ -1,0 +1,3 @@
+include 'main'
+findProject(':main')?.name = 'graphql-spring-annotations'
+
