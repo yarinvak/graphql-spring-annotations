@@ -58,6 +58,8 @@ You can create your `Mutation` and `Subscription` type in the same way: a graphq
 
 For directives to be added to your schema, you only need to put the `@GraphQLDirectiveDefinition` annotation (it is required by graphql-java-annotations) and your directives will be injected to the schema. No `@Component` is required.
 
+You also have to assign the configuration `directives.package` in your properties file, with the value being the package where your directives at.
+
 For example:
 
 ```java
@@ -107,7 +109,8 @@ voyager:
 graphql.playground:
   enabled: false
   cdn:
-    enabled: false
+    enabled: false    
+directives.package: graphqla.directives
 ```
 
 And you can go run your Application class.

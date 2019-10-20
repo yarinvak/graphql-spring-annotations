@@ -5,6 +5,7 @@ import graphql.annotations.annotationTypes.directives.definition.GraphQLDirectiv
 import graphql.schema.GraphQLSchema;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springAnno.interfaces.MutationRoot;
@@ -26,6 +27,9 @@ public class SchemaConfiguration {
     @Autowired(required = false)
     private SubscriptionRoot subscriptionRoot;
 
+    @Value("${directives.package}")
+    private String directivesPackage;
+
     @Bean
     GraphQLSchema schema() {
         AnnotationsSchemaCreator.Builder builder = newAnnotationsSchema();
@@ -37,7 +41,7 @@ public class SchemaConfiguration {
             builder.subscription(subscriptionRoot.getClass());
         }
 
-        Reflections reflections = new Reflections();
+        Reflections reflections = new Reflections(directivesPackage);
 
         Set<Class<?>> directiveDeclarations = reflections.getTypesAnnotatedWith(GraphQLDirectiveDefinition.class);
 
