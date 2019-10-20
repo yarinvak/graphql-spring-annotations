@@ -1,9 +1,9 @@
-group 'io.github.enigmatis'
-version '1.0-SNAPSHOT'
+import aQute.bnd.gradle.Bundle
 
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
@@ -11,16 +11,46 @@ buildscript {
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:2.1.9.RELEASE"
+        classpath 'biz.aQute.bnd:biz.aQute.bnd.gradle:3.1.0'
     }
 }
+plugins{
+    id "com.jfrog.bintray" version "1.8.4"
+}
+
+group 'io.github.enigmatis'
+version '0.1.1'
 
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'biz.aQute.bnd.builder'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+//release {
+//    tagTemplate = 'v${version}'
+//    failOnPublishNeeded = false
+//    failOnCommitNeeded = false
+//}
+
+// custom tasks for creating source/javadoc jars
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+
 
 jar {
     baseName = 'graphql-spring-annotations'
-    version =  '0.1.0'
+    version = project.version
+    enabled = true
 }
 
 repositories {
@@ -48,9 +78,85 @@ dependencies {
     // to embed Voyager tool
     runtime 'com.graphql-java-kickstart:voyager-spring-boot-starter:5.10.0'
 
+    compileOnly 'biz.aQute.bnd:biz.aQute.bndlib:3.2.0'
+
     // testing facilities
     testCompile 'com.graphql-java-kickstart:graphql-spring-boot-starter-test:5.10.0'
 
 
     testCompile("junit:junit")
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            groupId 'io.github.enigmatis'
+            artifactId 'graphql-spring-annotations'
+            version project.version
+
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = Closure.DELEGATE_FIRST
+                    name 'graphql-spring-annotations'
+                    description 'Annotation based graphql server'
+                    url 'https://github.com/yarinvak/graphql-spring-annotations'
+                    inceptionYear '2019'
+
+                    scm {
+                        url 'https://github.com/yarinvak/graphql-spring-annotations'
+                    }
+
+                    licenses {
+                        license {
+                            name 'The Apache Software License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'yarinvak'
+                            name 'Yarin Vaknin'
+                            email 'yarinvak@gmail.com'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//afterReleaseBuild.dependsOn bintrayUpload
+
+bintray {
+    user = System.getenv('BINTRAY_USER') ?: project.findProperty('BINTRAY_USER') ?: ''
+    key = System.getenv('BINTRAY_KEY') ?: project.findProperty('BINTRAY_KEY') ?: ''
+    publications = ['maven']
+    publish = true
+    pkg {
+        desc = 'A graphql server based on java annotations'
+        repo = 'graphql-spring-annotations'
+        name = 'graphql-spring-annotations'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/yarinvak/graphql-spring-annotations'
+        version {
+            name = project.version
+            released = new Date()
+            gpg {
+                sign = false
+            }
+            mavenCentralSync {
+                sync = false //[Default: true] Determines whether to sync the version to Maven Central..
+                user = System.getenv('OSS_USER') ?: project.findProperty('OSS_USER') ?: ''
+                password = System.getenv('OSS_PASS') ?: project.findProperty('OSS_PASS') ?: ''
+                close = '1'
+                //Optional property. By default the staging repository is closed and artifacts are released to Maven Central. You can optionally turn this behaviour off (by puting 0 as value) and release the version manually.
+            }
+        }
+    }
 }
