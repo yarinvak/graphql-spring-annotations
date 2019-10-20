@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springAnno.interfaces.AdditionalGraphQLType;
 import springAnno.interfaces.MutationRoot;
 import springAnno.interfaces.QueryRoot;
 import springAnno.interfaces.SubscriptionRoot;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static graphql.annotations.AnnotationsSchemaCreator.newAnnotationsSchema;
 
@@ -26,6 +28,9 @@ public class SchemaConfiguration {
 
     @Autowired(required = false)
     private SubscriptionRoot subscriptionRoot;
+
+    @Autowired(required = false)
+    private Set<AdditionalGraphQLType> additionalGraphQLTypes;
 
     @Value("${directives.package}")
     private String directivesPackage;
@@ -46,6 +51,11 @@ public class SchemaConfiguration {
         Set<Class<?>> directiveDeclarations = reflections.getTypesAnnotatedWith(GraphQLDirectiveDefinition.class);
 
         builder.directives(directiveDeclarations);
+
+        if (additionalGraphQLTypes!=null) {
+            builder.additionalTypes(additionalGraphQLTypes.stream().map(AdditionalGraphQLType::getClass).collect(Collectors.toSet()));
+        }
+
         return builder.build();
     }
 }

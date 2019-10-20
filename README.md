@@ -56,6 +56,8 @@ and implement `QueryRoot` interface (then it will be injected automatically into
 
 You can create your `Mutation` and `Subscription` type in the same way: a graphql-java-annotations syntax, `@Component` annotation on top of the class, and implementing the `MutationRoot` or `SubscriptionRoot` interfaces accordingly.
 
+### Directives
+
 For directives to be added to your schema, you only need to put the `@GraphQLDirectiveDefinition` annotation (it is required by graphql-java-annotations) and your directives will be injected to the schema. No `@Component` is required.
 
 You also have to assign the configuration `directives.package` in your properties file, with the value being the package where your directives at.
@@ -71,6 +73,13 @@ public class UpperDirectiveDefinition {
     private boolean isActive = true;
 }
 ```
+
+### Additional Types
+
+If you have an additional graphql types that cannot be refered directly from the root types (for example, if you have a field in Query with return type A but A is an interface that has the B implementation. B is not directly declared in the Query class so it won't be added automatically),
+you need to implement the `AdditionalGraphQLType` interface and add `@Component` annotation on top of the class.
+
+### Configurations
 
 Add a properties file (using the graphql-spring-boot settings), for example `application.yml`:
 
