@@ -1,4 +1,4 @@
-group 'yarin'
+group 'io.github.enigmatis'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -36,7 +36,6 @@ dependencies {
 
     compile 'org.reflections:reflections:0.9.11';
 
-//    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.1.9.RELEASE'
     // to embed Altair tool
     runtime 'com.graphql-java-kickstart:altair-spring-boot-starter:5.10.0'
 
