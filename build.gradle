@@ -19,13 +19,16 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 jar {
-    baseName = 'gs-spring-boot'
+    baseName = 'graphql-spring-annotations'
     version =  '0.1.0'
 }
 
 repositories {
     mavenCentral()
 }
+
+
+bootJar.enabled = false
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
