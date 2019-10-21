@@ -1,4 +1,6 @@
 # graphql-spring-annotations
+[ ![Download](https://api.bintray.com/packages/yarinvak/graphql-spring-annotations/graphql-spring-annotations/images/download.svg?version=0.1.3) ](https://bintray.com/yarinvak/graphql-spring-annotations/graphql-spring-annotations/0.1.3/link)
+
 
 [graphql-java-annotations](https://github.com/Enigmatis/graphql-java-annotations) is a great library for creating a graphql schema based on POJOs and java annotations.
 It simplifies the graphql schema creation and does not require creating a separated graphql schema and java types.
