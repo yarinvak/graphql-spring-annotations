@@ -14,7 +14,7 @@ first, add the following dependecies to your build.gradle:
 
 ```$xslt
 dependencies {
-    compile "io.github.enigmatis:graphql-spring-annotations:0.1.0"
+    compile "io.github.enigmatis:graphql-spring-annotations:0.1.5"
 }
 ``` 
 
