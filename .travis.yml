@@ -8,11 +8,7 @@ jdk: oraclejdk8
 jobs:
   include:
   - stage: build
-#    if: branch != master
     script: ./gradlew build
-#  - stage: build & deploy
-#    if: branch = master
-#    script: ./gradlew bintrayUpload
 
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
