@@ -5,5 +5,10 @@ os: linux
 dist: trusty
 jdk: oraclejdk8
 
-script:
-- ./gradlew build --scan -s
+jobs:
+  include:
+  - stage: build
+    script: ./gradlew build --scan -s
+  - stage: deploy
+    if: branch = master
+    script: ./gradlew bintrayUpload
