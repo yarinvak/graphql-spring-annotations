@@ -17,7 +17,7 @@ jobs:
       run: ./gradlew build
     - name: Publish to Github
       env:
-        GPR_USER: yarinvak
+        GPR_USER: 'yarinvak'
         GPR_API_KEY: ${{ secrets.GITHUB_TOKEN }}
       run: ./gradlew publish
     - name: Publish to Bintray
