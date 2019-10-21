@@ -8,11 +8,11 @@ jdk: oraclejdk8
 jobs:
   include:
   - stage: build
-    if: branch != master
+#    if: branch != master
     script: ./gradlew build
-  - stage: build & deploy
-    if: branch = master
-    script: ./gradlew bintrayUpload
+#  - stage: build & deploy
+#    if: branch = master
+#    script: ./gradlew bintrayUpload
 
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -22,3 +22,12 @@ cache:
   directories:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
+
+deploy:
+  provider: bintray
+  file: "Path to a descriptor file, containing information for the Bintray upload"
+  user: $BINTRAY_USER
+  key: $BINTRAY_KEY
+  skip_cleanup: true # to upload artifacts created during the build
+  on:
+    branch: staging
